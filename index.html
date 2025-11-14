@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC-TAC-TOE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Game Header -->
+        <header class="game-header">
+            <h1 class="title">TIC-TAC-TOE</h1>
+        </header>
+
+        <!-- Game Mode Selection -->
+        <div class="mode-selection" id="modeSelection">
+            <h3 class="selection-title">SELECT GAME MODE</h3>
+            <div class="mode-buttons">
+                <button class="mode-btn active" data-mode="local">LOCAL MULTIPLAYER</button>
+                <button class="mode-btn" data-mode="online">ONLINE MULTIPLAYER</button>
+                <button class="mode-btn" data-mode="computer">VS COMPUTER</button>
+            </div>
+        </div>
+
+        <!-- Player Name Input (shown for all modes) -->
+        <div class="player-name-section" id="playerNameSection" style="display: none;">
+            <input type="text" class="name-input" id="playerNameInput" placeholder="ENTER YOUR NAME" maxlength="15">
+            <button class="name-submit-btn" id="nameSubmitBtn">SET NAME</button>
+        </div>
+
+        <!-- Online Multiplayer Panel -->
+        <div class="online-panel" id="onlinePanel" style="display: none;">
+            <div class="online-actions">
+                <button class="online-btn primary" id="quickMatchBtn">QUICK MATCH</button>
+                <button class="online-btn" id="createPrivateRoomBtn">PRIVATE ROOM</button>
+            </div>
+            
+            <!-- Matchmaking Status -->
+            <div class="matchmaking-status" id="matchmakingStatus" style="display: none;">
+                <div class="matchmaking-text">FINDING OPPONENT...</div>
+                <div class="matchmaking-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+            
+            <!-- Room Creation Form (Private) -->
+            <div class="room-form" id="privateRoomForm" style="display: none;">
+                <div class="room-code-display" id="roomCodeDisplay"></div>
+                <button class="online-btn primary" id="createPrivateSubmitBtn">CREATE PRIVATE ROOM</button>
+                <div class="share-info">SHARE ROOM CODE TO INVITE PLAYERS</div>
+            </div>
+            
+            <!-- Room Info -->
+            <div class="room-info" id="roomInfo" style="display: none;">
+                <div class="room-header">
+                    <div class="room-code">ROOM: <span id="currentRoomCode"></span></div>
+                    <div class="your-symbol">YOU ARE: <span id="yourSymbol"></span></div>
+                </div>
+                <div class="game-status-online">
+                    <div class="match-status" id="matchStatus">CONNECTING...</div>
+                    <div class="connection-status" id="connectionStatus">REALTIME CONNECTION</div>
+                </div>
+                <div class="players-list">
+                    <div class="player-info" id="playerXInfo">
+                        <span class="player-symbol">X</span>
+                        <span class="player-name" id="playerXName">Waiting...</span>
+                        <span class="player-status" id="playerXStatus">OFFLINE</span>
+                        <span class="ping-indicator" id="playerXPing" style="display: none;">...</span>
+                    </div>
+                    <div class="player-info" id="playerOInfo">
+                        <span class="player-symbol">O</span>
+                        <span class="player-name" id="playerOName">Waiting...</span>
+                        <span class="player-status" id="playerOStatus">OFFLINE</span>
+                        <span class="ping-indicator" id="playerOPing" style="display: none;">...</span>
+                    </div>
+                </div>
+                <div class="room-actions">
+                    <button class="online-btn" id="copyRoomCodeBtn">COPY CODE</button>
+                    <button class="online-btn danger" id="leaveRoomBtn">LEAVE GAME</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Board -->
+        <div class="game-area">
+            <div class="board-container">
+                <div class="game-board" id="gameBoard">
+                    <div class="board-cell" data-index="0"></div>
+                    <div class="board-cell" data-index="1"></div>
+                    <div class="board-cell" data-index="2"></div>
+                    <div class="board-cell" data-index="3"></div>
+                    <div class="board-cell" data-index="4"></div>
+                    <div class="board-cell" data-index="5"></div>
+                    <div class="board-cell" data-index="6"></div>
+                    <div class="board-cell" data-index="7"></div>
+                    <div class="board-cell" data-index="8"></div>
+                </div>
+                <svg class="winning-line" id="winningLine" style="display: none;">
+                    <line class="winning-line-path" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Game Status -->
+        <div class="game-status">
+            <h2 class="status-text" id="statusText">PLAYER X'S TURN</h2>
+        </div>
+
+        <!-- Countdown Display -->
+        <div class="countdown-display" id="countdownDisplay" style="display: none;">
+            <div class="countdown-text">AUTO RESET IN</div>
+            <div class="countdown-number" id="countdownNumber">3</div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="controls">
+            <button class="reset-btn" id="resetBtn">RESET GAME</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
